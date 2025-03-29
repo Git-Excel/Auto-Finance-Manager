@@ -95,11 +95,16 @@ def get_summary():
         else:
             category_totals[t.category] = t.amount
 
+    # Sory categories by amount (highest first), and limit to top 5
+    sorted_categories = dict(
+        sorted(category_totals.items(), key=lambda item: item[1], reverse=True)[:5]
+    )
+
     summary = {
         "total_income": round(total_income, 2),
         "total_expense": round(total_expense, 2),
         "balance": round(total_income - total_expense, 2),
-        "by_category": category_totals
+        "by_category": sorted_categories
     }
 
     return jsonify(summary)
